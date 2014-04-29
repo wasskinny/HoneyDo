@@ -1,0 +1,38 @@
+body {
+	background-color: #8F6C6C;
+}
+table {
+}
+th {
+	font-family: fantasy;
+	border-width: 1;
+	text-align: center;
+}
+tr:nth-child(2n) {
+	background-color: #D4BCD6
+}
+#container {
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+}
+#toDoTable {
+	width: 100%;
+ 	font-family: arial;
+}
+#priority {
+	width: 10%;
+}
+#status {
+	width: 10%;
+}
+#subject {
+	width: 60%;
+}
+#dodate {
+	width: 10%;
+}
+#action {
+	width: 10%;
+}

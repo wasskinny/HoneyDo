@@ -1,0 +1,28 @@
+<?php
+
+{  //  First Our Secure Connection
+
+	include('../../../htconfig/dbConfig_HoneyDo.php')
+
+$dbSuccess = false;
+$dbConnected = mysql_connect($db['hostname'], $db['username'], $db['password']);
+
+	if($dbConnected) {
+	$dbSelected = mysql_select_db($db['database'],$dbConnected);
+	if($dbSelected) {
+		$dbSuccess = true;
+	} else {
+		echo "Database Connection FAILED!";
+		}
+	}	else {
+		echo "MySQL Connection FAILED!";	
+	}
+}
+
+if($dbSuccess) {
+
+
+
+
+}
+?>
