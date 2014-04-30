@@ -69,12 +69,24 @@ $dbSuccess = false;
 	
   // Pull the existing HoneyDo's from the database
   
-  $getExisting_SQL = "Select * ";
-  $getExisting_SQL .= "FROM tListEntries";
+  $getExisting_SQL = "Select l.ID, p.name, l.subject, s.status, ";
+  $getExisting_SQL .= 'DATE_FORMAT(l.Due_Date,"%Y-%m-%d"), ';
+  $getExisting_SQL .= "datediff(l.Due_Date, curdate()), d.nextaction ";
+  
+  $getExisting_SQL .= "FROM tListEntries AS l ";
+  $getExisting_SQL .= "LEFT JOIN tDescription AS d ON d.List_Id = l.ID, ";
+  $getExisting_SQL .= "tPriority AS p, ";
+  $getExisting_SQL .= "tStatus AS s ";
+  
+  $getExisting_SQL .= "WHERE l.status_Id = s.ID AND l.priority_Id = p.ID";
+  
+  echo $getExisting_SQL;
+  
   
  // $getExisting_Query = mysql_query($getExisting_SQL);
 
 	$getExisting_Query = mysqli_query($dbConnected,$getExisting_SQL);
+	
 
 echo "<table id=toDoTable>
 						 
@@ -99,10 +111,10 @@ echo "<table id=toDoTable>
 	while($row = mysqli_fetch_array($getExisting_Query)) {				 
 		
 		echo "<tr>";
-		echo 		"<td>" . $row['priority_Id'] . "</td>";		 
-		echo "<td>". $row['status_Id'] . "</td>";	
-		echo "<td>". $row['Subject'] . "</td>";	
-		echo "<td>". $row['Due_Date'] . "</td>";	
+		echo 		"<td>" . $row['name'] . "</td>";		 
+		echo "<td>". $row['status'] . "</td>";	
+		echo "<td>". $row['subject'] . "</td>";	
+		echo "<td>". $row['DATE_FORMAT(l.Due_Date,"%Y-%m-%d")'] . "</td>";	
 		echo "<td></td>";
 	}				 
 	echo		"</table>";
