@@ -1,4 +1,4 @@
-<div id="content" style="background-color:#EEEEEE;height:200px">
+<div id="content" style="background-color:#EEEEEE;height:400px">
 
 <?php
 /*
@@ -60,14 +60,13 @@ $dbSuccess = false;
 			if (mysqli_query($tListEntries_SQLupdate))  {	
 				echo header("Location: HoneyDo List");
 			} else {
-				echo '<span style="color:red; ">FAILED to update the company.</span><br /><br />';
+				echo '<span style="color:red; ">FAILED to update the HoneyDo.</span><br /><br />';
 				
 			}				
 		}	
 	//	END:  SAVE button was clicked 	ie. if (isset($saveClicked))
 	}		
-	
-  // Pull the existing HoneyDo's from the database
+	{  // Pull the existing HoneyDo's from the database
   
   $getExisting_SQL = "Select l.ID, p.name, l.subject, s.status, ";
   $getExisting_SQL .= 'DATE_FORMAT(l.Due_Date,"%Y-%m-%d"), ';
@@ -79,8 +78,9 @@ $dbSuccess = false;
   $getExisting_SQL .= "tStatus AS s ";
   
   $getExisting_SQL .= "WHERE l.status_Id = s.ID AND l.priority_Id = p.ID";
-  
-  echo $getExisting_SQL;
+
+//  Test my SQL statement by uncommenting the following line  
+//   echo $getExisting_SQL;
   
   
  // $getExisting_Query = mysql_query($getExisting_SQL);
@@ -119,8 +119,95 @@ echo "<table id=toDoTable>
 	}				 
 	echo		"</table>";
 
-
-
+  }
+	{  // The form to add new HoneyDos
+	
+		{ // Select statement for Priority Field
+	
+			$fld_Priority_SQL = "SELECT Name ";
+			$fld_Priority_SQL .= "FROM tPriority AS p ";
+			$fld_Priority_SQL .= "ORDER BY p.Priority ASC";
+			
+		//	echo 'This is SQL for Priority Field ' .$fld_Priority_SQL. '<br />';
+			
+			$fld_Status_SQL = "SELECT Status ";
+			$fld_Status_SQL .= "FROM tStatus ";
+			$fld_Status_SQL .= "ORDER BY ID ASC";
+			
+		//	echo 'This is SQL for Status Field '.$fld_Status_SQL.'<br />';
+			
+		}
+		{  //  Field Names for the Add Honey dos Table
+		   //  First the Static Fields
+			$fld_Subject = '<input type="text" name="Subject" size="50" maxlength="50"/>'; 
+			
+				// the Due_Date field is using jsDatePick  see code in index.php
+			$fld_Due_Date = '<input type="text" size="12" id="inputField" />';
+			
+			//  And the selection fields
+			//  The query for the Priority Field
+			
+			$priority_SQL_Query = mysqli_query($dbConnected,$fld_Priority_SQL);
+			
+			// echo 'Priority SQL Query result: '.$priority_SQL_Query.'<br />';
+			
+			$fld_Priority = '<select name="Priority">';
+			
+				while ($rowPriority = mysqli_fetch_array($priority_SQL_Query)) {
+									    $priorityValue = $rowPriority['Name'];
+									 //   if ($current_Priority == $priorityValue) { 
+									 //   	$selectedFlag = " selected";
+									 //   } else { 
+									 //   	$selectedFlag = "";
+									 //  }
+									   $fld_Priority .= '<option>'.$priorityValue.'</option>';
+									}
+								
+								//	mysqli_free_result($priority_SQL_Query);		
+						
+								$fld_Priority .= '</select>';
+				
+				//  The query for the Status Field
+				$status_SQL_Query = mysqli_query($dbConnected,$fld_Status_SQL);
+				
+				$fld_Status = '<select name="Status">';
+					
+					while	($rowStatus = mysqli_fetch_array($status_SQL_Query)) {
+										$statusValue = $rowStatus['Status'];
+										$fld_Status .= '<option>'.$statusValue.'</option>';
+										}
+										
+						//				mysqli_free_result($status_SQL_Query);
+										
+										$fld_Status .= '</select>';
+		}								
+		{  //  The input form using the defined variables
+	
+				echo "
+					<form action=addHoneydo.php method='post'>
+					<table id=listEntriesForm>
+							<tr>
+								 <td id = priority>
+									$fld_Priority
+								 </td>
+								 <td id = status>
+									$fld_Status
+								 </td>
+								 <td id = subject>
+									$fld_Subject
+								 </td>
+								 <td id = dodate>
+									$fld_Due_Date
+								 </td>
+								 <td id = action>";
+					echo '			<input type="submit" value="Add" />';
+					echo " </td>
+							 </tr>
+					</table>
+					</form>	";
+	
+		}
+	} 
 
 }  //  End of Connection Trap
    else { echo "You're not connected to the Database Dummy!";

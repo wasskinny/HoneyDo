@@ -21,14 +21,21 @@ tr:nth-child(2n) {
 	width: 100%;
  	font-family: arial;
 }
+#listEntriesForm {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	font-family: arial;
+}
 #priority {
 	width: 10%;
 }
 #status {
-	width: 10%;
+	width: 15%;
 }
 #subject {
-	width: 60%;
+	width: 55%;
 }
 #dodate {
 	width: 10%;

@@ -232,6 +232,8 @@ if($dbSuccess) {
 				'ID',
 				'List_Id',
 				'Description',
+				'Prerequisites',
+				'Req_Materials',
 				'NextAction'
 		);
 		

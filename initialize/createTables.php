@@ -1,47 +1,60 @@
 <?php
 /*
 
-*	File:		createTables_honeydo.php
-*	By:		Linn Thomas
-*	Date:		04/19/2014
-
-	This is to create the tables for the revised honeydo task list
-	This script will destory existing data in the tables, so be warned
-	
-	Because of the Foreign Key Strings this script only works once.  The foreign key
-	protects the tables so to drop you must turn off foreign key protection or
-	manually drop the tables
-
-=====================================
+*	File:		createTables.php
+*	By:			Linn Thomas
+*	Date:		2014-05-02
+*
+*	Initialize tables for HoneyDo List
+*
+*
+*=====================================
 */
 
-{  //  First Our Secure Connection
+{  //  Secure Connection
 
 	include('../../../htconfig/dbInitialize_HoneyDo.php');
-		$dbSuccess = false;
-		$dbConnected = mysql_connect($db['hostname'], $db['username'], $db['password']);
-		$dbName = $db['database'];
-
-	if($dbConnected) {
-	$dbSelected = mysql_select_db($db['database'],$dbConnected);
-	if($dbSelected) {
-		$dbSuccess = true;
-		echo "Database connected".'<br />';
-	} else {
-		echo "Database Connection FAILED!";
-		}
-	}	else {
-		echo "MySQL Connection FAILED!";	
-	}
-}
-
-// And this is the connection trap
-
-if($dbSuccess) {
 	
+	// I have changed my database connection to use mysqli rather than mysql_connect
+	
+
+$dbSuccess = false;
+ $dbConnected = mysqli_connect($db['hostname'], $db['username'], $db['password'], $db['database']);
+ $dbName = $db['database'];
+ $thisScriptName = "createTables.php";
+ 
+ // Check connection
+ if (mysqli_connect_errno()) {
+ 	echo "Failed to connect to MySQL: " . mysqli_connect_error();
+ }
+
+}
+  // This is the connection trap
+  if($dbConnected){
+  	
+  	// This script drops and recreates the tables for the Honeydo List
+  	//  User confirmation
+  	
+  	if (isset($_POST["continue"])){ $continue = $_POST['continue']; };
+  	
+	 echo "This script drops all the tables.  Are you sure you want to do this?  Type 'yes' to continue: ";
+	 echo '<form action='.$thisScriptName.' method="post">
+	 				<input type="text" name="continue" />
+			
+			    </form>';
+			    
+	if(isset($continue)) {
+		if(trim($continue) != 'yes' ) { 
+					echo "<font color='red'>ABORTING!\n</font>";
+					exit;
+			}
+		} else { 
+				exit;
+				}
+		
 	// Because I have foreign keys I have to turn them off to run this script
 	
-	mysql_query('SET foreign_key_checks = 0');
+	mysqli_query($dbConnected,'SET foreign_key_checks = 0');
 	
 	{  // Let's drop table tPriority
 
@@ -49,7 +62,7 @@ if($dbSuccess) {
 
 			$drop_Priority_SQL = "DROP TABLE ".$tablePriorityName;
 			
-			if (mysql_query($drop_Priority_SQL))  {	
+			if (mysqli_query($dbConnected, $drop_Priority_SQL))  {	
 				echo "'DROP ".$tablePriorityName."' -  Successful.".'<br />';
 			} else {
 				echo "'DROP ".$tablePriorityName."' - Failed.".'< br />';
@@ -79,7 +92,7 @@ if($dbSuccess) {
 	}
 	{	//		CREATE table - Priority
 			
-			if (mysql_query($createTablePriority_SQL))  {	
+			if (mysqli_query($dbConnected, $createTablePriority_SQL))  {	
 				echo "'CREATE ".$tablePriorityName."' -  Successful.".'<br />';
 			} else {
 				echo "'CREATE ".$tablePriorityName."' - Failed.".'<br />';
@@ -90,7 +103,7 @@ if($dbSuccess) {
 	
 	$drop_Status_SQL = "DROP TABLE ".$tableStatusName;
 			
-			if (mysql_query($drop_Status_SQL))  {	
+			if (mysqli_query($dbConnected, $drop_Status_SQL))  {	
 				echo "'DROP ".$tableStatusName."' -  Successful.".'<br />';
 			} else {
 				echo "'DROP ".$tableStatusName."' - Failed.".'<br />';
@@ -115,7 +128,7 @@ if($dbSuccess) {
 	}
 		{	//		CREATE table - Status
 			
-			if (mysql_query($createTableStatus_SQL))  {	
+			if (mysqli_query($dbConnected, $createTableStatus_SQL))  {	
 				echo "'CREATE ".$tableStatusName."' -  Successful.".'<br />';
 			} else {
 				echo "'CREATE ".$tableStatusName."' - Failed.".'<br />';
@@ -126,7 +139,7 @@ if($dbSuccess) {
 	$tableCategoryName = "tCategory";
 	$drop_Category_SQL = "DROP TABLE ".$tableCategoryName;
 			
-			if (mysql_query($drop_Category_SQL))  {	
+			if (mysqli_query($dbConnected, $drop_Category_SQL))  {	
 				echo "'DROP ".$tableCategoryName."' -  Successful.".'<br />';
 			} else {
 				echo "'DROP ".$tableCategoryName."' - Failed.".'<br />';
@@ -148,7 +161,7 @@ if($dbSuccess) {
 					Category VARCHAR(20)
 		)";
 					
-					if (mysql_query($createTableCategory_SQL))  {	
+					if (mysqli_query($dbConnected, $createTableCategory_SQL))  {	
 				echo "'CREATE ".$tableCategoryName."' -  Successful.".'<br />';
 			} else {
 				echo "'CREATE ".$tableCategoryName."' - Failed.".'<br />';
@@ -160,7 +173,7 @@ if($dbSuccess) {
 		
 		$drop_ListEntries_SQL = "DROP TABLE ".$tableListEntriesName;
 				
-				if (mysql_query($drop_ListEntries_SQL))  {	
+				if (mysqli_query($dbConnected, $drop_ListEntries_SQL))  {	
 					echo "'DROP ".$tableListEntriesName."' -  Successful.".'<br />';
 				} else {
 					echo "'DROP ".$tableListEntriesName."' - Failed.".'<br />';
@@ -208,7 +221,7 @@ if($dbSuccess) {
 		
 		{	//		CREATE table - List Entries		
 			
-			if (mysql_query($createTableListEntries_SQL))  {	
+			if (mysqli_query($dbConnected, $createTableListEntries_SQL))  {	
 				echo "'CREATE ".$tableListEntriesName."' -  Successful.".'<br />';
 			} else {
 				echo "'CREATE ".$tableListEntriesName."' - Failed.".'<br />';
@@ -218,7 +231,7 @@ if($dbSuccess) {
 		$tableDescriptionName = "tDescription";		
 		$drop_Description_SQL = "DROP TABLE ".$tableDescriptionName;
 			
-			if (mysql_query($drop_Description_SQL))  {	
+			if (mysqli_query($dbConnected, $drop_Description_SQL))  {	
 				echo "'DROP ".$tableDescriptionName."' -  Successful.".'<br />';
 			} else {
 				echo "'DROP ".$tableDescriptionName."' - Failed.".'<br />';
@@ -232,6 +245,8 @@ if($dbSuccess) {
 				'ID',
 				'List_Id',
 				'Description',
+				'Prerequisites',
+				'Req_Materials',
 				'NextAction'
 		);
 		
@@ -244,12 +259,14 @@ if($dbSuccess) {
 					ID INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 					List_Id INT (11) NOT NULL,
 					Description TEXT,
-					NextAction TEXT
+					NextAction TEXT,
+					Prerequisites TEXT,
+					Req_Materials TEXT
 					)";
 	}	
 	{	//		CREATE table - Description		
 			
-			if (mysql_query($createTableDescription_SQL))  {	
+			if (mysqli_query($dbConnected, $createTableDescription_SQL))  {	
 				echo "'CREATE ".$tableDescriptionName."' -  Successful.".'<br />';
 			} else {
 				echo "'CREATE ".$tableDescriptionName."' - Failed.".'<br />';
@@ -384,7 +401,7 @@ if($dbSuccess) {
 		echo "<strong><u>SQL for Priority Table:<br /></u></strong>";
 		echo $priority_SQLinsert."<br /><br />";
 			
-		if (mysql_query($priority_SQLinsert))  {				
+		if (mysqli_query($dbConnected, $priority_SQLinsert))  {				
 			echo "was SUCCESSFUL.<br /><br />";
 		} else {
 			echo "FAILED.<br /><br />";		
@@ -393,7 +410,7 @@ if($dbSuccess) {
 		echo "<strong><u>SQL for Status Table:<br /></u></strong>";
 		echo $status_SQLinsert."<br /><br />";
 			
-		if (mysql_query($status_SQLinsert))  {				
+		if (mysqli_query($dbConnected, $status_SQLinsert))  {				
 			echo "was SUCCESSFUL.<br /><br />";
 		} else {
 			echo "FAILED.<br /><br />";		
@@ -402,7 +419,7 @@ if($dbSuccess) {
 		echo "<strong><u>SQL for Category Table:<br /></u></strong>";
 		echo $category_SQLinsert."<br /><br />";
 			
-		if (mysql_query($category_SQLinsert))  {				
+		if (mysqli_query($dbConnected, $category_SQLinsert))  {				
 			echo "was SUCCESSFUL.<br /><br />";
 		} else {
 			echo "FAILED.<br /><br />";		
@@ -411,7 +428,7 @@ if($dbSuccess) {
 	
 	// Now with everything else done except the limited user I will turn foreign key checking back on
 	
-	mysql_query('SET foreign_key_checks = 1');
+	mysqli_query($dbConnected, 'SET foreign_key_checks = 1');
 	
 	{  // Now I'm going to create a limited user for this database
 		// From a seperate initialization file
@@ -420,7 +437,7 @@ if($dbSuccess) {
 		
 	$createUser_SQL = "
 			GRANT insert, update, delete, select ON ".$db['database'].".* TO honeydo@localhost IDENTIFIED BY 'MommasHappy'";
-	if (mysql_query($createUser_SQL))	 {
+	if (mysqli_query($dbConnected, $createUser_SQL))	 {
 		echo "CREATE USER was SUCCESSFUL. <br /><br />";
 		} else {
 		echo "CREATE USER FAILED. <br /><br />";
