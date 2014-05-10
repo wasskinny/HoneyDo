@@ -47,13 +47,15 @@ $dbSuccess = false;
 			$tListEntriesID = $_POST["ListEntriesID"];
 			
 			$priorityID = $_POST["Priority"];	
-			$statusID = $_POST["Status"];	
+			$statusID = $_POST["Status"];
+			$categoryID = $_POST['Category'];	
 			$subject = $_POST["Subject"];	
 			$action = $_POST["Action"];	
 	
 			$tListEntries_SQLupdate = "UPDATE tListEntries SET ";	
 			$tListEntries_SQLupdate .=  "Priority = '".$Priority."', ";
 			$tListEntries_SQLupdate .=  "Status = '".$Status."', ";
+			$tListEntries_SQLupdate .=  "Category = ".$Category.", ";
 			$tListEntries_SQLupdate .=  "Subject = '".$Subject."', ";
 			$tListEntries_SQLupdate .=  "WHERE ID = '".$tListEntriesID."' "; 	
 	
@@ -68,19 +70,20 @@ $dbSuccess = false;
 	}		
 	{  // Pull the existing HoneyDo's from the database
   
-  $getExisting_SQL = "Select l.ID, p.name, l.subject, s.status, ";
+  $getExisting_SQL = "Select l.ID, p.name, l.subject, s.status, c.category, ";
   $getExisting_SQL .= 'DATE_FORMAT(l.Due_Date,"%Y-%m-%d"), ';
   $getExisting_SQL .= "datediff(l.Due_Date, curdate()), d.nextaction ";
   
   $getExisting_SQL .= "FROM tListEntries AS l ";
   $getExisting_SQL .= "LEFT JOIN tDescription AS d ON d.List_Id = l.ID, ";
   $getExisting_SQL .= "tPriority AS p, ";
-  $getExisting_SQL .= "tStatus AS s ";
+  $getExisting_SQL .= "tStatus AS s, ";
+  $getExisting_SQL .= "tCategory As c ";
   
-  $getExisting_SQL .= "WHERE l.status_Id = s.ID AND l.priority_Id = p.ID";
+  $getExisting_SQL .= "WHERE l.status_Id = s.ID AND l.priority_Id = p.ID AND l.category_Id = c.ID";
 
 //  Test my SQL statement by uncommenting the following line  
-//   echo $getExisting_SQL;
+   echo $getExisting_SQL;
   
   
  // $getExisting_Query = mysql_query($getExisting_SQL);
@@ -96,6 +99,9 @@ echo "<table id=toDoTable>
 					 </th>
 					 <th id = 'status'>
 						Status
+					 </th>
+					 <th id = 'category'>
+					 	Category
 					 </th>
 					 <th id = 'subject'>
 						Subject
@@ -113,6 +119,7 @@ echo "<table id=toDoTable>
 		echo "<tr>";
 		echo 		"<td>" . $row['name'] . "</td>";		 
 		echo "<td>". $row['status'] . "</td>";	
+		echo "<td>". $row['category'] . "</td>";
 		echo "<td>". $row['subject'] . "</td>";	
 		echo "<td>". $row['DATE_FORMAT(l.Due_Date,"%Y-%m-%d")'] . "</td>";	
 		echo "<td></td>";
@@ -124,25 +131,31 @@ echo "<table id=toDoTable>
 	
 		{ // Select statement for Priority Field
 	
-			$fld_Priority_SQL = "SELECT Name ";
+			$fld_Priority_SQL = "SELECT Name, Priority, ID ";
 			$fld_Priority_SQL .= "FROM tPriority AS p ";
 			$fld_Priority_SQL .= "ORDER BY p.Priority ASC";
 			
 		//	echo 'This is SQL for Priority Field ' .$fld_Priority_SQL. '<br />';
 			
-			$fld_Status_SQL = "SELECT Status ";
+			$fld_Status_SQL = "SELECT Status, ID ";
 			$fld_Status_SQL .= "FROM tStatus ";
 			$fld_Status_SQL .= "ORDER BY ID ASC";
+			
+		//	echo 'This is SQL for Status Field '.$fld_Status_SQL.'<br />';
+		
+			$fld_Category_SQL = "SELECT Category, ID ";
+			$fld_Category_SQL .= "FROM tCategory ";
+			$fld_Category_SQL .= "ORDER BY ID ASC";
 			
 		//	echo 'This is SQL for Status Field '.$fld_Status_SQL.'<br />';
 			
 		}
 		{  //  Field Names for the Add Honey dos Table
 		   //  First the Static Fields
-			$fld_Subject = '<input type="text" name="Subject" size="50" maxlength="50"/>'; 
+			$fld_Subject = '<input type="varchar" name="Subject" size="50" maxlength="50"/>'; 
 			
 				// the Due_Date field is using jsDatePick  see code in index.php
-			$fld_Due_Date = '<input type="text" size="12" id="inputField" />';
+			$fld_Due_Date = '<input type="datetime" name="Due_Date" size="12" id="inputField" />';
 			
 			//  And the selection fields
 			//  The query for the Priority Field
@@ -155,12 +168,9 @@ echo "<table id=toDoTable>
 			
 				while ($rowPriority = mysqli_fetch_array($priority_SQL_Query)) {
 									    $priorityValue = $rowPriority['Name'];
-									 //   if ($current_Priority == $priorityValue) { 
-									 //   	$selectedFlag = " selected";
-									 //   } else { 
-									 //   	$selectedFlag = "";
-									 //  }
-									   $fld_Priority .= '<option>'.$priorityValue.'</option>';
+									    $priorityID = $rowPriority['ID'];
+									 
+									   $fld_Priority .= '<option value='.$priorityID.'>'.$priorityValue.'</option>';
 									}
 								
 								//	mysqli_free_result($priority_SQL_Query);		
@@ -174,12 +184,28 @@ echo "<table id=toDoTable>
 					
 					while	($rowStatus = mysqli_fetch_array($status_SQL_Query)) {
 										$statusValue = $rowStatus['Status'];
-										$fld_Status .= '<option>'.$statusValue.'</option>';
+										$statusID= $rowStatus['ID'];
+										$fld_Status .= '<option value='.$statusID.'>'.$statusValue.'</option>';
 										}
 										
 						//				mysqli_free_result($status_SQL_Query);
 										
 										$fld_Status .= '</select>';
+										
+		//  The query for the Category Field
+				$category_SQL_Query = mysqli_query($dbConnected,$fld_Category_SQL);
+				
+				$fld_Category = '<select name="Category">';
+					
+					while	($rowCategory = mysqli_fetch_array($category_SQL_Query)) {
+										$categoryValue = $rowCategory['Category'];
+										$categoryID= $rowCategory['ID'];
+										$fld_Category .= '<option value='.$categoryID.'>'.$categoryValue.'</option>';
+										}
+										
+						//				mysqli_free_result($category_SQL_Query);
+										
+										$fld_Category .= '</select>';
 		}								
 		{  //  The input form using the defined variables
 	
@@ -192,6 +218,9 @@ echo "<table id=toDoTable>
 								 </td>
 								 <td id = status>
 									$fld_Status
+								 </td>
+								 <td id = category>
+								 	$fld_Category
 								 </td>
 								 <td id = subject>
 									$fld_Subject

@@ -35,7 +35,8 @@ $dbSuccess = false;
 	{ 	// The fields carried in from content.php
 
 				$fld_Priority = $_POST["Priority"];	
-				$fld_Status = $_POST["Status"];	
+				$fld_Status = $_POST["Status"];
+				$fld_Category = $_POST['Category'];
 				$fld_Subject = $_POST["Subject"];	
 				$fld_Due_Date = $_POST["Due_Date"];	
 	}				
@@ -46,6 +47,7 @@ $dbSuccess = false;
 				
 				echo "$fld_Priority <br />";
 				echo "$fld_Status <br />" ;
+				echo "$fld_Category <br />";
 				echo "$fld_Subject <br />";
 				echo "$fld_Due_Date <br />" ;
 				
@@ -53,6 +55,7 @@ $dbSuccess = false;
 				$tListEntries_SQLinsert = "INSERT INTO tListEntries (";			
 				$tListEntries_SQLinsert .=  "priority_Id, ";
 				$tListEntries_SQLinsert .=  "status_Id, ";
+				$tListEntries_SQLinsert .= "category_Id, ";
 				$tListEntries_SQLinsert .=  "Subject, ";
 				$tListEntries_SQLinsert .=  "Due_Date ";
 				$tListEntries_SQLinsert .=  ") ";
@@ -60,13 +63,16 @@ $dbSuccess = false;
 				$tListEntries_SQLinsert .=  "VALUES (";
 				$tListEntries_SQLinsert .=  "'".$fld_Priority."', ";
 				$tListEntries_SQLinsert .=  "'".$fld_Status."', ";
+				$tListEntries_SQLinsert .= 	"'".$fld_Category."', ";
 				$tListEntries_SQLinsert .=  "'".$fld_Subject."', ";
-				$tListEntries_SQLinsert .=  "'".$fld_Due_Date."', ";	
+				$tListEntries_SQLinsert .=  "'".$fld_Due_Date."'";	
 				$tListEntries_SQLinsert .=  ") ";
+				
+				echo 'The SQL Statement is '.$tListEntries_SQLinsert.'<br />';
 				
 	if (mysqli_query($dbConnected, $tListEntries_SQLinsert))  {	
 		
-			// header("Location: companyPeopleEdit.php?companyID=".$companyID);
+			 header("Location: index.php");
 			
 		} else {
 			

@@ -32,10 +32,10 @@ tr:nth-child(2n) {
 	width: 10%;
 }
 #status {
-	width: 10%;
+	width: 15%;
 }
 #subject {
-	width: 60%;
+	width: 55%;
 }
 #dodate {
 	width: 10%;

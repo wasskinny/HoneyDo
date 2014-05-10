@@ -34,8 +34,11 @@ tr:nth-child(2n) {
 #status {
 	width: 15%;
 }
+#category {
+	width: 10%;
+}
 #subject {
-	width: 55%;
+	width: 45%;
 }
 #dodate {
 	width: 10%;
