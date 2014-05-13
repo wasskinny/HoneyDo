@@ -4,7 +4,7 @@
 <title>HoneyDos Start Page</title>
 <meta name="generator" content="Bluefish 2.2.6" >
 <meta name="author" content="Linden Thomas" >
-<meta name="date" content="2014-05-10T00:13:00-0600" >
+<meta name="date" content="2014-05-10T00:23:25-0600" >
 <meta name="copyright" content="Linn Thomas Digital">
 <meta name="keywords" content="">
 <meta name="description" content="">
@@ -30,7 +30,7 @@
 		new JsDatePick({
 			useMode:2,
 			target:"inputField",
-			dateFormat:"%d-%M-%Y"
+			dateFormat:"%Y-%m-%d"
 			/*selectedDate:{				This is an example of what the full configuration offers.
 				day:5,						For full documentation about these settings please see the full version of the code.
 				month:9,
