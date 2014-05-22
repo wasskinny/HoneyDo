@@ -1,4 +1,4 @@
-<div id="content" style="background-color:#EEEEEE;height:400px">
+<div id="content" style="height:400px">
 
 <?php
 /*
@@ -114,7 +114,7 @@
 		 			// This is for Delete and Completion Links ... will make it prettier later
 		 			//				I'm going to edit from the Subject Field
 		 			//				$listEditLink = '<a href="honeydoEditForm.php?listID='.$thisID.'">E</a> ';
-		 							$listEditLink .= '<a href="deleteHoneyDo.php?listID='.$thisID.'" onclick="return checkDelete()">D</a> ';
+		 							$listEditLink = '<a href="deleteHoneyDo.php?listID='.$thisID.'" onclick="return checkDelete()">D</a> ';
 		 							$listEditLink .= '<a href="completeHoneyDo.php?listID='.$thisID.'">C</a>';
 		 							
 									echo "<tr>";

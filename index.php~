@@ -4,7 +4,7 @@
 <title>HoneyDos Start Page</title>
 <meta name="generator" content="Bluefish 2.2.6" >
 <meta name="author" content="Linden Thomas" >
-<meta name="date" content="2014-05-10T00:23:25-0600" >
+<meta name="date" content="2014-05-12T00:03:24-0600" >
 <meta name="copyright" content="Linn Thomas Digital">
 <meta name="keywords" content="">
 <meta name="description" content="">
@@ -45,7 +45,11 @@
 		});
 	};
 </script>
-
+<script language="JavaScript" type="text/javascript">
+		function checkDelete(){
+		    return confirm('Are you sure?');
+		}
+</script>
 </head>
 <body>
 <div id="container">

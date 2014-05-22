@@ -38,7 +38,8 @@ $dbSuccess = false;
 				$fld_Status = $_POST["Status"];
 				$fld_Category = $_POST['Category'];
 				$fld_Subject = $_POST["Subject"];	
-				$fld_Due_Date = $_POST["Due_Date"];	
+				$fld_Due_Date = $_POST["Due_Date"];
+				$fld_Create_Date = "Getdate()";
 	}				
 				
 				
@@ -57,7 +58,8 @@ $dbSuccess = false;
 				$tListEntries_SQLinsert .=  "status_Id, ";
 				$tListEntries_SQLinsert .= "category_Id, ";
 				$tListEntries_SQLinsert .=  "Subject, ";
-				$tListEntries_SQLinsert .=  "Due_Date ";
+				$tListEntries_SQLinsert .=  "Due_Date, ";
+				$tListEntries_SQLinsert .= "Create_Date ";
 				$tListEntries_SQLinsert .=  ") ";
 				
 				$tListEntries_SQLinsert .=  "VALUES (";
@@ -65,14 +67,15 @@ $dbSuccess = false;
 				$tListEntries_SQLinsert .=  "'".$fld_Status."', ";
 				$tListEntries_SQLinsert .= 	"'".$fld_Category."', ";
 				$tListEntries_SQLinsert .=  "'".$fld_Subject."', ";
-				$tListEntries_SQLinsert .=  "'".$fld_Due_Date."'";	
+				$tListEntries_SQLinsert .=  "'".$fld_Due_Date."',";	
+				$tListEntries_SQLinsert .= ".$fld_Create_Date";
 				$tListEntries_SQLinsert .=  ") ";
 				
 				echo 'The SQL Statement is '.$tListEntries_SQLinsert.'<br />';
 				
 	if (mysqli_query($dbConnected, $tListEntries_SQLinsert))  {	
 		
-			// header("Location: companyPeopleEdit.php?companyID=".$companyID);
+			 header("Location: index.php");
 			
 		} else {
 			

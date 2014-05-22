@@ -1,6 +1,19 @@
 body {
 	background-color: #8F6C6C;
 }
+h1 {
+	color: #7A535D;
+	font-size: 30px;
+}
+textarea {
+	height: 300px;
+	width: 400px;
+	max-height: 300px;
+	max-width: 400px;
+}
+#content{
+	background-color: #EEEEEE;
+}
 table {
 }
 th {
@@ -21,6 +34,23 @@ tr:nth-child(2n) {
 	width: 100%;
  	font-family: arial;
 }
+#listEntriesEdit {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	font-family: Arial;
+}
+#editHDsubject {
+	font-size: 25px;
+	color: #7A535D;
+}
+#createDate {
+	width: 10%;
+}
+#lastModified {
+	width: 10%;
+}
 #listEntriesForm {
 	width: 100%;
 	margin-left: auto;
@@ -34,8 +64,11 @@ tr:nth-child(2n) {
 #status {
 	width: 15%;
 }
+#category {
+	width: 10%;
+}
 #subject {
-	width: 55%;
+	width: 45%;
 }
 #dodate {
 	width: 10%;

@@ -41,17 +41,27 @@ $dbSuccess = false;
 	$deleteListEntry_SQL .= "tListEntries ";
 	$deleteListEntry_SQL .= "WHERE ";
 	$deleteListEntry_SQL .= "ID = $listID";
+	// And from the Description Table
+	$deleteDescription_SQL = "DELETE FROM ";
+	$deleteDescription_SQL .= "tDescription ";
+	$deleteDescription_SQL .= "WHERE ";
+	$deleteDescription_SQL .= "List_Id =$listID";
 
 }
 
   echo $deleteListEntry_SQL ;
   
-{ // Now lets run the SQL Statement
+{ // Now lets run the SQL Statement  This needs some improvement... I would like to check each
+  //  Deletion seperately, but apparently if statements don't nest
 
-	if (mysqli_query($dbConnected, $deleteListEntry_SQL)) {
-		header("Location: index.php");
-	} else {
-	 echo "Failed to Delete $listID";
+	if(mysqli_query($dbConnected, $deleteListEntry_SQL)) {
+		if(mysqli_query($dbConnected, $deleteDescription_SQL)) {
+			header("Location: index.php");
+			} else {
+	 			echo "Failed to Delete $listID from tDescription";
+	//	 } else {
+	//			echo "Failed to Delete $listID from tListEntries";
+		}
 	}
 
 

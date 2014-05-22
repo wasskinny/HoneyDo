@@ -41,6 +41,11 @@ $dbSuccess = false;
 	$deleteListEntry_SQL .= "tListEntries ";
 	$deleteListEntry_SQL .= "WHERE ";
 	$deleteListEntry_SQL .= "ID = $listID";
+	// And from the Description Table
+	$deleteDescription_SQL = "DELETE FROM ";
+	$deleteDescription_SQL .= "tDescription ";
+	$deleteDescription_SQL .= "WHERE ";
+	$deleteDescription_SQL .= "List_Id =$listID";
 
 }
 
@@ -48,16 +53,20 @@ $dbSuccess = false;
   
 { // Now lets run the SQL Statement
 
-	if (mysqli_query($dbConnected, $deleteListEntry_SQL)) {
-		echo "List Item ".$listID." has been deleted!";
-	} else {
-	 echo "Failed to Delete $listID";
+	if(mysqli_query($dbConnected, $deleteListEntry_SQL)) {
+		if(mysqli_query($dbConnected, $deleteDescription_SQL)) {
+			header("Location: index.php");
+			} else {
+	 			echo "Failed to Delete $listID from tDescription";
+	//	 } else {
+	//			echo "Failed to Delete $listID from tListEntries";
+		}
 	}
 
 
 }
 
- echo '<br /><a href="index.php">Go Home </a>';
+ echo '<br /><a href="index.php">Go Back to Home </a>';
  
 }  //  End of Connection Trap
    else { echo "You're not connected to the Database Dummy!";

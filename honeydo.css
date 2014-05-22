@@ -1,6 +1,21 @@
 body {
 	background-color: #8F6C6C;
 }
+h1 {
+	color: #7A535D;
+	font-size: 30px;
+}
+textarea {
+	height: 150px;
+	width: 300px;
+	min-height: 150px;	
+	min-width: 300px;
+	max-height: 150px;
+	max-width: 300px;
+}
+#content{
+	background-color: #EEEEEE;
+}
 table {
 }
 th {
@@ -20,6 +35,23 @@ tr:nth-child(2n) {
 #toDoTable {
 	width: 100%;
  	font-family: arial;
+}
+#listEntriesEdit {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	font-family: Arial;
+}
+#editHDsubject {
+	font-size: 25px;
+	color: #7A535D;
+}
+#createDate {
+	width: 10%;
+}
+#lastModified {
+	width: 10%;
 }
 #listEntriesForm {
 	width: 100%;
