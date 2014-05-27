@@ -163,7 +163,6 @@ $dbSuccess = false;
 				
 				mysqli_query($dbConnected, $insertDescription_SQL);
 				
-				mysqli_free_result($insertDescription_SQL);
 				}
 	 		
 	}
@@ -323,7 +322,7 @@ $dbSuccess = false;
  
    	echo '<table id=listEntriesEdit>';
 	echo 		'<tr>';
-   	echo			'<td value='.$listID.' id=editHDsubject colspan="0">Honey Do: '.$subject. ' </td>';
+   	echo			'<td value='.$listID.' id=editHDsubject colspan="6">Honey Do: '.$subject. ' </td>';   	
    	echo		'</tr>'; 
    	echo		'<tr>';
    	echo			'<th id=category>';
