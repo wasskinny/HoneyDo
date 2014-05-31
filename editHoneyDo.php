@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-<title>HoneyDos Start Page</title>
+<title>HoneyDos Edit Page</title>
 <meta name="generator" content="Bluefish 2.2.6" >
 <meta name="author" content="Linden Thomas" >
 <meta name="date" content="2014-05-19T00:52:56-0600" >

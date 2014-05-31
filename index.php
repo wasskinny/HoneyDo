@@ -54,9 +54,15 @@
 <body>
 <div id="container">
 
-<?php 	include('header.html'); 
+
+<?php 	
+				// $orderClause = "";
 				
-				include('content.php');
+				if (isset($_GET["orderClause"])) {$orderClause = $_GET["orderClause"];}
+				
+				include('header.html'); 
+				
+				include('contentWCompleted.php');
 
 				include('footer.html'); 
 				
